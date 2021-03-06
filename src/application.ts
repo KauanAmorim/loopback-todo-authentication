@@ -3,20 +3,24 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-import {BootMixin} from '@loopback/boot';
-import {ApplicationConfig} from '@loopback/core';
-import {RepositoryMixin} from '@loopback/repository';
-import {Request, Response, RestApplication} from '@loopback/rest';
+import { BootMixin } from '@loopback/boot';
+import { ApplicationConfig } from '@loopback/core';
+import { RepositoryMixin } from '@loopback/repository';
+import { Request, Response, RestApplication } from '@loopback/rest';
+import { RestExplorerBindings, RestExplorerComponent, } from '@loopback/rest-explorer';
+import { ServiceMixin } from '@loopback/service-proxy';
+import { AuthenticationComponent } from '@loopback/authentication';
 import {
-  RestExplorerBindings,
-  RestExplorerComponent,
-} from '@loopback/rest-explorer';
-import {ServiceMixin} from '@loopback/service-proxy';
+  JWTAuthenticationComponent,
+  SECURITY_SCHEME_SPEC,
+  UserServiceBindings,
+} from '@loopback/authentication-jwt';
+import { DbDataSource } from './datasources';
 import morgan from 'morgan';
 import path from 'path';
-import {MySequence} from './sequence';
+import { MySequence } from './sequence';
 
-export {ApplicationConfig};
+export { ApplicationConfig };
 
 export class TodoListApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
@@ -48,6 +52,15 @@ export class TodoListApplication extends BootMixin(
     };
 
     this.setupLogging();
+
+    // Mount authentication system
+    this.component(AuthenticationComponent);
+
+    // Mount JWT component
+    this.component(JWTAuthenticationComponent);
+
+    // Bind datasource
+    this.dataSource(DbDataSource, UserServiceBindings.DATASOURCE_NAME);
   }
 
   private setupLogging() {

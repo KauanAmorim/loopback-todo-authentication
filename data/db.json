@@ -1,6 +1,8 @@
 {
   "ids": {
-    "Todo": 5
+    "Todo": 5,
+    "User": 2,
+    "UserCredentials": 2
   },
   "models": {
     "Todo": {
@@ -8,6 +10,12 @@
       "2": "{\"title\":\"destroy alderaan\",\"desc\":\"Make sure there are no survivors left!\",\"id\":2}",
       "3": "{\"title\":\"play space invaders\",\"desc\":\"Become the very best!\",\"id\":3}",
       "4": "{\"title\":\"crush rebel scum\",\"desc\":\"Every.Last.One.\",\"id\":4}"
+    },
+    "User": {
+      "6c1818cd-dcb9-4141-9539-a48c285b258e": "{\"id\":\"6c1818cd-dcb9-4141-9539-a48c285b258e\",\"email\":\"testuser2@abc.com\"}"
+    },
+    "UserCredentials": {
+      "818fc18f-208a-4e14-9556-ac850e2fe087": "{\"id\":\"818fc18f-208a-4e14-9556-ac850e2fe087\",\"password\":\"$2a$10$nEgva6S7zYuYdSDLSFSHDeEt8cPJ3y5QWPtixLsqNo/JjUdxvE54S\",\"userId\":\"6c1818cd-dcb9-4141-9539-a48c285b258e\"}"
     }
   }
 }

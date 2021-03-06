@@ -3,7 +3,7 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-import {inject} from '@loopback/core';
+import { inject } from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -23,22 +23,24 @@ import {
   put,
   requestBody,
 } from '@loopback/rest';
-import {Todo} from '../models';
-import {TodoRepository} from '../repositories';
-import {Geocoder} from '../services';
+import { Todo } from '../models';
+import { TodoRepository } from '../repositories';
+import { Geocoder } from '../services';
+import { authenticate } from '@loopback/authentication';
 
+@authenticate('jwt')
 export class TodoController {
   constructor(
     @repository(TodoRepository)
     public todoRepository: TodoRepository,
     @inject('services.Geocoder') protected geoService: Geocoder,
-  ) {}
+  ) { }
 
   @post('/todos', {
     responses: {
       '200': {
         description: 'Todo model instance',
-        content: {'application/json': {schema: getModelSchemaRef(Todo)}},
+        content: { 'application/json': { schema: getModelSchemaRef(Todo) } },
       },
     },
   })
@@ -81,7 +83,7 @@ export class TodoController {
         description: 'Todo model instance',
         content: {
           'application/json': {
-            schema: getModelSchemaRef(Todo, {includeRelations: true}),
+            schema: getModelSchemaRef(Todo, { includeRelations: true }),
           },
         },
       },
@@ -89,7 +91,7 @@ export class TodoController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(Todo, {exclude: 'where'}) filter?: FilterExcludingWhere<Todo>,
+    @param.filter(Todo, { exclude: 'where' }) filter?: FilterExcludingWhere<Todo>,
   ): Promise<Todo> {
     return this.todoRepository.findById(id, filter);
   }
@@ -102,7 +104,7 @@ export class TodoController {
           'application/json': {
             schema: {
               type: 'array',
-              items: getModelSchemaRef(Todo, {includeRelations: true}),
+              items: getModelSchemaRef(Todo, { includeRelations: true }),
             },
           },
         },
@@ -139,7 +141,7 @@ export class TodoController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Todo, {partial: true}),
+          schema: getModelSchemaRef(Todo, { partial: true }),
         },
       },
     })
@@ -163,7 +165,7 @@ export class TodoController {
     responses: {
       '200': {
         description: 'Todo model count',
-        content: {'application/json': {schema: CountSchema}},
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
@@ -175,7 +177,7 @@ export class TodoController {
     responses: {
       '200': {
         description: 'Todo PATCH success count',
-        content: {'application/json': {schema: CountSchema}},
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
@@ -183,7 +185,7 @@ export class TodoController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Todo, {partial: true}),
+          schema: getModelSchemaRef(Todo, { partial: true }),
         },
       },
     })
